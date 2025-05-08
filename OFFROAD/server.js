@@ -27,12 +27,9 @@ server.on('listening', ()=>{
 server.on('message', (msg,rinfo)=>{
     try {
         const data = JSON.parse(msg.toString());
-        console.log('raw msg:', raw);
-        console.log(data)
         console.log(`송신자 정보 ${rinfo.address} : ${rinfo.port}`)
         console.log(`Anchor : ${data.anchor}, Range : ${data.Range}`)
     } catch(err) {
-        
         console.error('Parsing 실패', err.message);
         console.log('원본 문자열', msg.toString())
     }
