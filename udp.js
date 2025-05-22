@@ -47,8 +47,8 @@ server.on('message', (msg) => {
         try {
           // 일단 앵커위치는 임의로 설정해놨음
           const result = trilaterate(
-            [3, 1.5, rangeA1],
-            [0, 1.5, rangeA2],
+            [1.2, 0.8, rangeA1],
+            [0, 0.8, rangeA2],
             [0, 0 , rangeA3] 
           );
           console.log('계산된 현재 위치:', result);
