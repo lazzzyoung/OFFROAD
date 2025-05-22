@@ -8,6 +8,7 @@ function tagPos(anchorLen, len1, len2) {
 
 
 // 삼변측량
+// ap1, ap2, ap3: [x, y, distance]
 function trilaterate(ap1, ap2, ap3) {
     const [x1, y1, d1] = ap1;
     const [x2, y2, d2] = ap2;
