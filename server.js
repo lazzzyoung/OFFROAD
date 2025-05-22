@@ -37,24 +37,22 @@ server.on('message', (msg, rinfo) => {
       switch (anchor) {
         case '1784':
           rangeA1 = range;
-          console.log(`Anchor : A1}, Range : ${rangeA1}`);
+          console.log(`Anchor : A1, Range : ${rangeA1}`);
           break;
         case '1785':
           rangeA2 = range;
-          console.log(`Anchor : A2}, Range : ${rangeA2}`);
+          console.log(`Anchor : A2, Range : ${rangeA2}`);
           break;
         case '1786':
           rangeA3 = range;
-          console.log(`Anchor : A3}, Range : ${rangeA3}`);
+          console.log(`Anchor : A3, Range : ${rangeA3}`);
           break;
         default:
           console.log('알 수 없는 Anchor:', anchor);
       }
 
 
-      // debugging 용
-      // console.log(`송신자 정보 ${rinfo.address} : ${rinfo.port}`);
-      // console.log(`Anchor : ${data.Anchor}, Range : ${data.Range}`);
+      
     } catch (err) {
       console.error('Parsing 실패', err.message);
       console.log('원본 문자열:', raw); 
