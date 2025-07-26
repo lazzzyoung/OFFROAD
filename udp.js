@@ -69,21 +69,21 @@ server.on('message', (msg) => {
 
 
 
-//
-require('dotenv').config();
-const express = require('express');
-const app = express();
-const PORT = process.env.HTTP_PORT;
+// //
+// require('dotenv').config();
+// const express = require('express');
+// const app = express();
+// const PORT = process.env.HTTP_PORT;
 
-// 라우팅 설정
-app.get('/', (req, res) => {
-  res.send('OFF-ROAD 잘 돌아가는중임 ㅇㅇ');
-});
+// // 라우팅 설정
+// app.get('/', (req, res) => {
+//   res.send('OFF-ROAD 잘 돌아가는중임 ㅎㅇ');
+// });
 
-// UDP 소켓 실행 (모듈 import해서 실행)
-require('./udp');
+// // UDP 소켓 실행 (모듈 import해서 실행)
+// require('./udp');
 
-// 서버 시작
-app.listen(PORT, () => {
-  console.log(`HTTP 서버 실행 중 : http://localhost:${PORT}`);
-});
+// // 서버 시작
+// app.listen(PORT, () => {
+//   console.log(`HTTP 서버 실행 중 : http://localhost:${PORT}`);
+// });

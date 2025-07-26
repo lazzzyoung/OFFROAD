@@ -3,13 +3,18 @@ require('./udp')
 const express = require('express')
 const app = express()
 const PORT = process.env.HTTP_PORT;
+const cors =require('cors');
 
+app.use(cors());
+app.use(express.json());
 
 app.listen(PORT, () => {
     console.log('OFF-ROAD 서버 실행중')
 })
 
-// app.get('/',(req,res)=>{
-//     res.send('OFF-ROAD 잘 돌아가는중임 ㅇㅇ')
-// })
+app.get('/',(req,res)=>{
+    res.send('Hello World');
+    console.log("check1")
 
+})
+app.use('/product',require('./routes/products.js'));
