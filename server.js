@@ -1,5 +1,6 @@
 require('dotenv').config()
 require('./udp')
+const axios = require('axios');
 const express = require('express')
 const app = express()
 const PORT = process.env.HTTP_PORT;
@@ -18,3 +19,4 @@ app.get('/',(req,res)=>{
 
 })
 app.use('/product',require('./routes/products.js'));
+app.use('/assistant', require('./routes/assistant.js'));

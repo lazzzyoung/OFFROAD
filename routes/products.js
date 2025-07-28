@@ -1,21 +1,24 @@
 require('dotenv').config()
 const express = require('express');
 const router = express.Router();
+const { ObjectId } = require('mongodb');
 let connectDB = require('../database.js')
 
 let db;
-connectDB.then((client) => {
-    db = client.db(process.env.DB_NAME); 
-}).catch((err) => {
-    console.error("Database connection failed:", err);
-    throw { status: 500, message: "Database connection failed" };
-});
+connectDB
+  .then((client) => {
+    db = client.db(process.env.DB_NAME);
+  })
+  .catch((err) => {
+    console.error("❌ DB 연결 실패:", err);
+    process.exit(1); // 그냥 서버 종료
+  });
 
 // 전체 상품 목록
 router.get('/', async (req, res) => {
     try {
         const products = await db.collection('products').find().toArray();
-        console.log(products);
+        console.log("상품 불러오기 성공");
         res.status(200).json(products);
         
       } catch (err) {
@@ -36,12 +39,82 @@ router.get('/search', async (req, res) => {
           .collection('products')
           .find({ name: { $regex: keyword, $options: 'i' } }) // 대소문자 구분 X
           .toArray();
-    
-        res.json(products);
+        
+        console.log("상품 불러오기 성공");
+        res.status(200).json(products);
       } catch (err) {
         res.status(500).json({ error: '상품 검색 실패' });
       }
     });
+
+// 장바구니에 담긴 상품만 조회
+router.get('/cart', async (req, res) => {
+  try {
+    const cartItems = await db
+      .collection('products')
+      .find({ status: 'in_cart' })
+      .toArray();
+
+    res.status(200).json(cartItems);
+  } catch (err) {
+    res.status(500).json({ error: '장바구니 상품 조회 실패' });
+  }
+});
+
+// routes/product.js
+
+
+
+router.post('/cart/add/:id', async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    const result = await db.collection('products').updateOne(
+      { _id: new ObjectId(productId) },
+      { $set: { status: "in_cart" } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({ message: '상품 장바구니에 추가됨' });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+router.post('/cart/remove/:id', async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    const result = await db.collection('products').updateOne(
+      { _id: new ObjectId(productId) },
+      { $set: { status: "available" } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({ message: '상품 장바구니에서 제거됨' });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+router.post('/cart/clear', async (req, res) => {
+  try {
+    await db.collection('products').updateMany(
+      { status: 'in_cart' },              
+      { $set: { status: 'available' } }     
+    );
+    res.status(200).json({ message: '장바구니 초기화 완료' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '장바구니 초기화 실패' });
+  }
+});
 
 // 특정 위치의 상품들
 router.get('/location/:loc', async (req, res) => {
