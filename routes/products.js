@@ -18,7 +18,7 @@ connectDB
 router.get('/', async (req, res) => {
     try {
         const products = await db.collection('products').find().toArray();
-        console.log("상품 불러오기 성공");
+
         res.status(200).json(products);
         
       } catch (err) {
@@ -126,7 +126,27 @@ router.get('/location/:loc', async (req, res) => {
       res.status(500).json({ error: '해당 위치 상품 조회 실패' });
     }
   });
+ 
+router.get("/location/:id", async (req, res) => {
+    const productId = req.params.id;
   
+    if (!ObjectId.isValid(productId)) {
+      return res.status(400).json({ error: "유효하지 않은 상품 ID입니다." });
+    }
+  
+    try {
+      const product = await db.collection("products").findOne({ _id: new ObjectId(productId) });
+  
+      if (!product) {
+        return res.status(404).json({ error: "해당 상품을 찾을 수 없습니다." });
+      }
+  
+      res.json({ location: product.location });
+    } catch (err) {
+      console.error("상품 위치 조회 실패:", err);
+      res.status(500).json({ error: "서버 오류로 위치를 조회할 수 없습니다." });
+    }
+  });  
 
 // 상품 하나 조회
 router.get('/:id', async (req, res) => {
