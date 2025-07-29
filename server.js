@@ -6,7 +6,15 @@ const app = express()
 const PORT = process.env.HTTP_PORT;
 const cors =require('cors');
 
+<<<<<<< HEAD
 app.use(cors());
+=======
+app.use(cors({
+  origin: ['http://localhost:8080', 'https://offroad.kro.kr', 'https://offroad-47v5dqvs6-kangtaeyoungs-projects.vercel.app'],
+  credentials: true,
+}));
+// app.use(cors());
+>>>>>>> dev
 app.use(express.json());
 
 app.listen(PORT, () => {
