@@ -7,9 +7,9 @@ const PORT = process.env.HTTP_PORT;
 const cors =require('cors');
 
 app.use(cors({
-    origin: 'https://offroad-47v5dqvs6-kangtaeyoungs-projects.vercel.app',
-    credentials: true,
-  }));
+  origin: ['http://localhost:8080', 'https://offroad.kro.kr', 'https://offroad-47v5dqvs6-kangtaeyoungs-projects.vercel.app'],
+  credentials: true,
+}));
 // app.use(cors());
 app.use(express.json());
 
