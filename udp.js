@@ -4,7 +4,7 @@ const dgram = require('dgram');
 const server = dgram.createSocket('udp4')
 const udpPort = process.env.UDP_PORT;
 const HOST = process.env.HOST;
-
+let latestPosition = null;
 let rangeA1 = null;
 let rangeA2 = null;
 let rangeA3 = null;
@@ -45,13 +45,14 @@ server.on('message', (msg) => {
       if (rangeA1!=null && rangeA2!=null && rangeA3!=null) {
         console.log('모든 Anchor의 Range 수신 완료');
         try {
-          // 일단 앵커위치는 임의로 설정해놨음
+          
           const result = trilaterate(
-            [1.2, 0.8, rangeA1],
-            [0, 0.8, rangeA2],
-            [0, 0 , rangeA3] 
+            [0, 0, rangeA1],
+            [0, 2.5, rangeA2],
+            [2.5, 0 , rangeA3] 
           );
           console.log('계산된 현재 위치:', result);
+          latestPosition = result;
           rangeA1 = rangeA2 = rangeA3 = null;
         } catch (err) {
           console.error(err.message);

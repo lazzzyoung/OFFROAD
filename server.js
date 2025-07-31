@@ -24,5 +24,14 @@ app.get('/',(req,res)=>{
     console.log("check1")
 
 })
+
+app.get("/position", (req, res) => {
+  if (latestPosition) {
+    res.json({ x: latestPosition[0], y: latestPosition[1] });
+  } else {
+    res.status(404).json({ error: "위치 없음" });
+  }
+});
+
 app.use('/product',require('./routes/products.js'));
 app.use('/assistant', require('./routes/assistant.js'));
