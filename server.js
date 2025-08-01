@@ -84,8 +84,8 @@ udpServer.on('message', (msg) => {
         console.log(`📊 trilaterate 계산 시작: A1=${rangeA1}, A2=${rangeA2}, A3=${rangeA3}`);
         const result = trilaterate(
           [0, 0, rangeA1],
-          [0, 2.5, rangeA2],
-          [2.5, 0, rangeA3]
+          [0, 1.5, rangeA2],
+          [1.5, 0, rangeA3]
         );
         latestPosition = result;
         console.log('✅ 계산된 현재 위치:', result);
