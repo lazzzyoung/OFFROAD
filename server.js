@@ -8,7 +8,7 @@ const cors =require('cors');
 
 
 app.use(cors({
-  origin: ['http://localhost:8080', 'https://offroad.kro.kr', 'https://offroad-47v5dqvs6-kangtaeyoungs-projects.vercel.app'],
+  origin: '*',
   credentials: true,
 }));
 // app.use(cors());
