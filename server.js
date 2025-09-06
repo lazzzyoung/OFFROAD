@@ -14,7 +14,7 @@ let latestPosition = null;
 
 app.use(cors({
   origin: '*',
-  credentials: true
+  credentials: false
 }));
 app.use(express.json());
 
