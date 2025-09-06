@@ -8,25 +8,20 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.HTTP_PORT;
 const udpPort = process.env.UDP_PORT;
-// const HOST = process.env.HOST; // <- UDP는 고정으로 0.0.0.0에 바인드할 거라 사용 안 함
+const HOST = process.env.HOST;
 
 let latestPosition = null;
 
-/** ===== CORS (쿠키/인가 X: 가장 단순) ===== */
 app.use(cors({
   origin: '*',
-  credentials: false,
-  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization','X-Requested-With']
+  credentials: true
 }));
-app.options('*', cors()); // 프리플라이트 전역 허용
-
 app.use(express.json());
 
-/** ===== HTTP 서버 ===== */
+// ================== HTTP 서버 ================== //
 app.listen(PORT, () => {
   console.log(`✅ OFF-ROAD HTTP 서버 실행 중 : http://localhost:${PORT}`);
-  console.log(`👉 HTTP_PORT=${PORT}, UDP_PORT=${udpPort}`);
+  console.log(`👉 HTTP_PORT=${PORT}, UDP_PORT=${udpPort}, HOST=${HOST}`);
 });
 
 app.get('/', (req, res) => {
@@ -47,12 +42,11 @@ app.get('/position', (req, res) => {
 app.use('/product', require('./routes/products.js'));
 app.use('/assistant', require('./routes/assistant.js'));
 
-/** ===== UDP 서버 ===== */
+// ================== UDP 서버 ================== //
 const udpServer = dgram.createSocket('udp4');
 let rangeA1 = null, rangeA2 = null, rangeA3 = null;
 
-// 🔧 퍼블릭 IP 바뀌어도 안전: 항상 모든 NIC에 바인드
-udpServer.bind(udpPort, '0.0.0.0');
+udpServer.bind(udpPort, HOST);
 
 udpServer.on('listening', () => {
   const address = udpServer.address();
