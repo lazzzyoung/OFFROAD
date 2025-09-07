@@ -7,7 +7,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 router.post('/', async (req, res) => {
   const { question } = req.body;
-  console.log("질문 들어옴:", question);
+  // console.log("질문 들어옴:", question);
 
   try {
     const response = await axios.post(
@@ -33,8 +33,8 @@ router.post('/', async (req, res) => {
     const aiResponse = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
     res.json({ result: aiResponse || '응답이 없어요.' });
   } catch (error) {
-    console.error('Gemini 호출 실패:', error.message);
-    console.error('상세 오류:', error.response?.data || error);
+    // console.error('Gemini 호출 실패:', error.message);
+    // console.error('상세 오류:', error.response?.data || error);
     res.status(500).json({ error: 'AI 응답 실패' });  
   }
 });

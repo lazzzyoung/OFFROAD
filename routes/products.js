@@ -10,7 +10,7 @@ connectDB
     db = client.db(process.env.DB_NAME);
   })
   .catch((err) => {
-    console.error("❌ DB 연결 실패:", err);
+    // console.error("❌ DB 연결 실패:", err);
     process.exit(1); // 그냥 서버 종료
   });
 
@@ -40,7 +40,7 @@ router.get('/search', async (req, res) => {
           .find({ name: { $regex: keyword, $options: 'i' } }) // 대소문자 구분 X
           .toArray();
         
-        console.log("상품 불러오기 성공");
+        // console.log("상품 불러오기 성공");
         res.status(200).json(products);
       } catch (err) {
         res.status(500).json({ error: '상품 검색 실패' });
@@ -111,7 +111,7 @@ router.post('/cart/clear', async (req, res) => {
     );
     res.status(200).json({ message: '장바구니 초기화 완료' });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     res.status(500).json({ error: '장바구니 초기화 실패' });
   }
 });
@@ -143,7 +143,7 @@ router.get("/location/:id", async (req, res) => {
   
       res.json({ location: product.location });
     } catch (err) {
-      console.error("상품 위치 조회 실패:", err);
+      // console.error("상품 위치 조회 실패:", err);
       res.status(500).json({ error: "서버 오류로 위치를 조회할 수 없습니다." });
     }
   });  
